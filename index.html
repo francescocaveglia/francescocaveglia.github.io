@@ -1,5 +1,5 @@
 <style>
-  iframe {
+  iframe, potw-card {
   height: 300px;
   width: 1090px;
   resize: both;
@@ -11,3 +11,20 @@
 <iframe src="//uclpotw-int.uefa.com/widgets/widgets-for-iframe.html?pollId=5d5aa523c8269b0ce3115e21"></iframe>
 <div>TEST WINNER (PROD: 5b9b817ee2f4380cf388874a)</div>
 <iframe src="//uclpotw.uefa.com/widgets/widgets-for-iframe.html?pollId=5b9b817ee2f4380cf388874a"></iframe>
+
+<script id="custom-elements-es5-adapter-loader">
+            if (window.customElements) {
+              var src, currTag, script;
+              src = 'https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.7/custom-elements-es5-adapter.js';
+              currTag = document.getElementById('custom-elements-es5-adapter-loader';
+              script = document.createElement('script');
+              script.src = src;
+              currTag.parentNode.insertBefore(script, currTag.nextSibling);
+            }
+          </script>
+
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.7/webcomponents-loader.js"></script>
+
+<script async type="text/javascript" src="https://uclpotw-int.uefa.com/static/js/external.card.js"></script>
+
+<potw-card pollId="5db94def388ee70cf0528cfc" nomineeId="5db94e0a388ee70cf0528cfd" disable-tracking="true" ></potw-card>
