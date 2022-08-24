@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    <!-- OneTrust Cookies Consent Notice start -->
+    <script
+      src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
+      type="text/javascript"
+      charset="UTF-8"
+      data-domain-script="0fa1d477-2aa6-4739-8fc7-bfa6a4a5e156"
+    ></script>
+    <!-- OneTrust Cookies Consent Notice end -->
+
+    <script>
+      var consentState,
+        consentString,
+        has_amp_key = false,
+        isTCF2 = false,
+        isFirst = true;
+      window.parent.postMessage(
+        {
+          sentinel: 'amp',
+          type: 'send-consent-data',
+        },
+        '*',
+      );
+      window.addEventListener('message', function (event) {
+        // will fetch only if AMP key is present
+        if (!isAmpMessage(event, 'consent-data')) {
+          return;
+        }
+        has_amp_key = true;
+      });
+
+      function OptanonWrapper() {
+        // Check if it's CMP or TCF
+        if (typeof __cmp === 'function') {
+          __cmp('getConsentData', Array, function (e) {
+            consentString = e.consentData;
+          });
+          isTCF2 = false;
+        }
+        if (typeof __tcfapi === 'function') {
+          __tcfapi('getTCData', 2, (tcData, success) => {
+            if (success) {
+              consentString = tcData.tcString;
+            } else {
+            }
+            isTCF2 = true;
+          });
+        }
+        initialiseBtnHandlers();
+        window.addEventListener('OneTrustPCLoaded', function () {
+          initialiseBtnHandlers();
+        });
+
+        if (!getCookie('OptanonAlertBoxClosed') && isFirst && !has_amp_key) {
+          isFirst = false;
+          if (Optanon.GetDomainData().ShowAlertNotice == false) {
+            send2Amp(consentString);
+          }
+        } else if (isFirst && has_amp_key) {
+          isFirst = false;
+          Optanon.ToggleInfoDisplay();
+        } else {
+          send2Amp(consentString);
+        }
+      }
+
+      function isAmpMessage(event, type) {
+        return (
+          event.source == window.parent &&
+          event.origin != window.location.origin &&
+          event.data &&
+          event.data.sentinel == 'amp' &&
+          event.data.type == type
+        );
+      }
+
+      function initialiseBtnHandlers() {
+        var PCCloseButton = document.getElementById('close-pc-btn-handler');
+        var PCbutton = document.getElementById('onetrust-pc-btn-handler');
+        var PClink = document.getElementsByClassName('ot-sdk-show-settings');
+        var listButton = document.getElementsByClassName('onetrust-vendors-list-handler');
+        PCbutton &&
+          PCbutton.addEventListener('click', function () {
+            iFrameState('consent-ui', 'enter-fullscreen');
+          });
+
+        PCCloseButton &&
+          PCCloseButton.addEventListener('click', function () {
+            iFrameState('consent-response', 'dismiss');
+          });
+
+        for (var i = 0; i < listButton.length; i++) {
+          listButton[i] &&
+            listButton[i].addEventListener('click', function () {
+              iFrameState('consent-ui', 'enter-fullscreen');
+            });
+        }
+
+        for (var i = 0; i < PClink.length; i++) {
+          PClink[i] &&
+            PClink[i].addEventListener('click', function () {
+              iFrameState('consent-ui', 'enter-fullscreen');
+            });
+        }
+      }
+
+      function iFrameState(type, action) {
+        window.parent.postMessage(
+          {
+            type: type,
+            action: action,
+            initialHeight: '60vh',
+          },
+          '*',
+        );
+      }
+
+      function send2Amp(consentString) {
+        var payload = {
+          type: 'consent-response',
+          info: consentString,
+        };
+        if (OptanonActiveGroups.indexOf('4') === -1) {
+          payload.action = 'reject';
+        }
+        if (OptanonActiveGroups.indexOf('4') !== -1) {
+          payload.action = 'accept';
+        }
+        if (isTCF2) {
+          payload.consentMetadata = {
+            consentStringType: 2,
+            gdprApplies: true,
+            additionalConsent: getCookie('OTAdditionalConsentString'),
+          };
+        }
+        window.parent.postMessage(payload, '*');
+      }
+    </script>
+    <script>
+      function getCookie(name) {
+        var value = '; ' + document.cookie;
+        var parts = value.split('; ' + name + '=');
+        if (parts.length == 2) return parts.pop().split(';').shift();
+      }
+    </script>
+
+    <script>
+      (window.BOOMR_mq = window.BOOMR_mq || []).push([
+        'addVar',
+        {
+          'rua.upush': 'false',
+          'rua.cpush': 'false',
+          'rua.upre': 'false',
+          'rua.cpre': 'false',
+          'rua.uprl': 'false',
+          'rua.cprl': 'false',
+          'rua.cprf': 'false',
+          'rua.trans': '',
+          'rua.cook': 'false',
+          'rua.ims': 'false',
+          'rua.ufprl': 'false',
+          'rua.cfprl': 'false',
+          'rua.isuxp': 'false',
+          'rua.texp': 'norulematch',
+        },
+      ]);
+    </script>
+    <script>
+      !(function (e) {
+        var n = 'https://s.go-mpulse.net/boomerang/';
+        if ('False' == 'True')
+          (e.BOOMR_config = e.BOOMR_config || {}),
+            (e.BOOMR_config.PageParams = e.BOOMR_config.PageParams || {}),
+            (e.BOOMR_config.PageParams.pci = !0),
+            (n = 'https://s2.go-mpulse.net/boomerang/');
+        if (
+          ((window.BOOMR_API_key = 'VC2RM-4E5LU-HJZLE-2ZVKG-5DYHC'),
+          (function () {
+            function e() {
+              if (!o) {
+                var e = document.createElement('script');
+                (e.id = 'boomr-scr-as'),
+                  (e.src = window.BOOMR.url),
+                  (e.async = !0),
+                  i.parentNode.appendChild(e),
+                  (o = !0);
+              }
+            }
+            function t(e) {
+              o = !0;
+              var n,
+                t,
+                a,
+                r,
+                d = document,
+                O = window;
+              if (
+                ((window.BOOMR.snippetMethod = e ? 'if' : 'i'),
+                (t = function (e, n) {
+                  var t = d.createElement('script');
+                  (t.id = n || 'boomr-if-as'),
+                    (t.src = window.BOOMR.url),
+                    (BOOMR_lstart = new Date().getTime()),
+                    (e = e || d.body),
+                    e.appendChild(t);
+                }),
+                !window.addEventListener && window.attachEvent && navigator.userAgent.match(/MSIE [67]\./))
+              )
+                return (window.BOOMR.snippetMethod = 's'), void t(i.parentNode, 'boomr-async');
+              (a = document.createElement('IFRAME')),
+                (a.src = 'about:blank'),
+                (a.title = ''),
+                (a.role = 'presentation'),
+                (a.loading = 'eager'),
+                (r = (a.frameElement || a).style),
+                (r.width = 0),
+                (r.height = 0),
+                (r.border = 0),
+                (r.display = 'none'),
+                i.parentNode.appendChild(a);
+              try {
+                (O = a.contentWindow), (d = O.document.open());
+              } catch (_) {
+                (n = document.domain),
+                  (a.src = "javascript:var d=document.open();d.domain='" + n + "';void(0);"),
+                  (O = a.contentWindow),
+                  (d = O.document.open());
+              }
+              if (n)
+                (d._boomrl = function () {
+                  (this.domain = n), t();
+                }),
+                  d.write('<bo' + "dy onload='document._boomrl();'>");
+              else if (
+                ((O._boomrl = function () {
+                  t();
+                }),
+                O.addEventListener)
+              )
+                O.addEventListener('load', O._boomrl, !1);
+              else if (O.attachEvent) O.attachEvent('onload', O._boomrl);
+              d.close();
+            }
+            function a(e) {
+              window.BOOMR_onload = (e && e.timeStamp) || new Date().getTime();
+            }
+            if (!window.BOOMR || (!window.BOOMR.version && !window.BOOMR.snippetExecuted)) {
+              (window.BOOMR = window.BOOMR || {}),
+                (window.BOOMR.snippetStart = new Date().getTime()),
+                (window.BOOMR.snippetExecuted = !0),
+                (window.BOOMR.snippetVersion = 12),
+                (window.BOOMR.url = n + 'VC2RM-4E5LU-HJZLE-2ZVKG-5DYHC');
+              var i = document.currentScript || document.getElementsByTagName('script')[0],
+                o = !1,
+                r = document.createElement('link');
+              if (r.relList && 'function' == typeof r.relList.supports && r.relList.supports('preload') && 'as' in r)
+                (window.BOOMR.snippetMethod = 'p'),
+                  (r.href = window.BOOMR.url),
+                  (r.rel = 'preload'),
+                  (r.as = 'script'),
+                  r.addEventListener('load', e),
+                  r.addEventListener('error', function () {
+                    t(!0);
+                  }),
+                  setTimeout(function () {
+                    if (!o) t(!0);
+                  }, 3e3),
+                  (BOOMR_lstart = new Date().getTime()),
+                  i.parentNode.appendChild(r);
+              else t(!1);
+              if (window.addEventListener) window.addEventListener('load', a, !1);
+              else if (window.attachEvent) window.attachEvent('onload', a);
+            }
+          })(),
+          ''.length > 0)
+        )
+          if (
+            e &&
+            'performance' in e &&
+            e.performance &&
+            'function' == typeof e.performance.setResourceTimingBufferSize
+          )
+            e.performance.setResourceTimingBufferSize();
+        !(function () {
+          if (((BOOMR = e.BOOMR || {}), (BOOMR.plugins = BOOMR.plugins || {}), !BOOMR.plugins.AK)) {
+            var n = '' == 'true' ? 1 : 0,
+              t = 'cookiepresent',
+              a = 'xraqcfc7muljuyyf63qq-f-4f85c0155-clientnsv4-s.akamaihd.net',
+              i = 'false' == 'true' ? 2 : 1,
+              o = {
+                'ak.v': '32',
+                'ak.cp': '1133047',
+                'ak.ai': parseInt('603068', 10),
+                'ak.ol': '0',
+                'ak.cr': 78,
+                'ak.ipv': 4,
+                'ak.proto': 'h2',
+                'ak.rid': '8cf637f',
+                'ak.r': 36459,
+                'ak.a2': n,
+                'ak.m': '',
+                'ak.n': 'essl',
+                'ak.bpcip': '188.65.1.0',
+                'ak.cport': 51641,
+                'ak.gh': '95.101.22.150',
+                'ak.quicv': '',
+                'ak.tlsv': 'tls1.3',
+                'ak.0rtt': '',
+                'ak.csrc': '-',
+                'ak.acc': '',
+                'ak.t': '1661335265',
+                'ak.ak':
+                  'hOBiQwZUYzCg5VSAfCLimQ==52nPaClBf7JDYQzdgXIxnl6gPSV//1nz6f5kIoV0VnQgQtYqcwIEKfhH8EomFZbTNDWV/X2/eu6DigPI2cMekSg8svvfoHyJWIyJvRDyFJ5SNw6hFIBfPRbRTF4bUhjeqrlwaGjqlTtxwVoqVaolPSnqYj8T6v1qPAeGJasMG9WJCeekHW42c54Zs5QIX6lgjFt/2zcYwnq05AKND11Wgp2L5gx77AgI9Nq88L1vu4G/Zby30ZLhebYBXIhjIegsvb3iJoSnoDCgxW9JUvmEApBZ9/CEpLnQohtgaSUd0UTjmkZHZyepkutHGy/AUAIKef57YZpfnjO0aylVk507+7TFJ62hWMrNXEt+wIsrOhdiMpJYfH6YLYrMii+2X0nfp6kD/ptYfKTvaxHz2ysxROZi5gONhZFtTm3vg9rVjGA=',
+                'ak.pv': '86',
+                'ak.dpoabenc': '',
+                'ak.tf': i,
+              };
+            if ('' !== t) o['ak.ruds'] = t;
+            var r = {
+              i: !1,
+              av: function (n) {
+                var t = 'http.initiator';
+                if (n && (!n[t] || 'spa_hard' === n[t]))
+                  (o['ak.feo'] = void 0 !== e.aFeoApplied ? 1 : 0), BOOMR.addVar(o);
+              },
+              rv: function () {
+                var e = [
+                  'ak.bpcip',
+                  'ak.cport',
+                  'ak.cr',
+                  'ak.csrc',
+                  'ak.gh',
+                  'ak.ipv',
+                  'ak.m',
+                  'ak.n',
+                  'ak.ol',
+                  'ak.proto',
+                  'ak.quicv',
+                  'ak.tlsv',
+                  'ak.0rtt',
+                  'ak.r',
+                  'ak.acc',
+                  'ak.t',
+                  'ak.tf',
+                ];
+                BOOMR.removeVar(e);
+              },
+            };
+            BOOMR.plugins.AK = {
+              akVars: o,
+              akDNSPreFetchDomain: a,
+              init: function () {
+                if (!r.i) {
+                  var e = BOOMR.subscribe;
+                  e('before_beacon', r.av, null, null), e('onbeacon', r.rv, null, null), (r.i = !0);
+                }
+                return this;
+              },
+              is_complete: function () {
+                return !0;
+              },
+            };
+          }
+        })();
+      })(window);
+    </script>
+  </head>
+  <body>
+    <div></div>
+  </body>
+</html>
